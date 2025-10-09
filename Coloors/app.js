@@ -3,14 +3,20 @@ const colorDivs = document.querySelectorAll(".color");
 const generateBtn = document.querySelector(".generate");
 const sliders = document.querySelectorAll("input[type='range']");
 const currentHexes = document.querySelectorAll(".color h2");
+console.log(currentHexes);
 
 // intial colors
-let intialColors;
+let initialColors;
 
 // Event Listeners
 sliders.forEach(slider => {
     slider.addEventListener('input', hslControls);
 });
+colorDivs.forEach((div,index) => {
+    div.addEventListener("change", () => {
+        updateTextUI(index);
+    })
+})
 
 // Functions
 function generateHex () {
@@ -29,6 +35,7 @@ function generateHex () {
 console.log(generateHex());
 
 function randomColors (){
+    initialColors = [];
     colorDivs.forEach((div,index) => {
         const hexText = div.children[0];
         const randomColor = generateHex();
@@ -36,6 +43,7 @@ function randomColors (){
         // add color to background
         div.style.backgroundColor = randomColor;
         hexText.innerHTML = randomColor;
+        initialColors.push(chroma(randomColor).hex());
         // check for contrast
         checkTextContrast(randomColor, hexText);
         
@@ -81,6 +89,7 @@ function colorizeSliders(color, hue, brightness, saturation) {
 };
 
 function hslControls (e) {
+    
     const index =
         e.target.getAttribute ("data-bright") ||
         e.target.getAttribute ("data-sat") ||
@@ -95,7 +104,8 @@ function hslControls (e) {
 
     console.log(sliders);
 
-    const bgColor = colorDivs[index].querySelector("h2").innerText;
+    // const bgColor = colorDivs[index].querySelector("h2").innerText;
+    const bgColor = initialColors[index];
 
     let color = chroma(bgColor)
         .set("hsl.s", saturation.value)
@@ -104,5 +114,21 @@ function hslControls (e) {
 
     colorDivs[index].style.backgroundColor = color;
 };
+
+// update text UI
+function updateTextUI(index){
+    const activeDiv = colorDivs[index];
+    const color = chroma(activeDiv.style.backgroundColor);
+    const textHex = activeDiv.querySelector("h2");
+    textHex.innerText = color;
+    const icons = activeDiv.querySelectorAll(".controls button");
+    
+    // check contrast
+    checkTextContrast(color, textHex);
+    for (icon of icons){
+        checkTextContrast(color, icon);
+    }
+
+}
 // hslControls ();
 // console.log(colorDivs);
