@@ -107,3 +107,26 @@ i,svg {
         transform: scale(1.2);
     }
 }
+.mute.active {
+    background: gray;
+}
+.tempo {
+    margin: 3rem;
+    width: 30%;
+    /* background: gray; */
+}
+.tempo-slider {
+    -webkit-appearance: none;
+    padding: 0.2rem;
+    margin: 1rem;
+    width: 100%;
+    position: relative;
+    background: rgb(88, 88, 88);
+    cursor: pointer;
+    border-radius: 1rem;
+}
+.tempo p {
+    font-size: 1.5rem;
+    margin: 2rem;
+    text-align: center;
+}
