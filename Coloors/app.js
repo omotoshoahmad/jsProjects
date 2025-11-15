@@ -12,6 +12,9 @@ const closeAdjustments = document.querySelectorAll(".close-adjustment");
 // intial colors
 let initialColors;
 
+// This is for local storage
+let savedPalettes = [];
+
 // Event Listeners
 generateBtn.addEventListener("click", randomColors);
 sliders.forEach(slider => {
@@ -107,7 +110,6 @@ function randomColors (){
     });
 
 };
-randomColors();
 
 function checkTextContrast (color, text){
     const luminance = chroma(color).luminance();
@@ -254,3 +256,24 @@ function lockLayer(e, index) {
 
 // hslControls ();
 // console.log(colorDivs);
+
+// Implement Save to palette button
+const saveBtn = document.querySelector('.save');
+const submitSave = document.querySelector('.submit-save');
+const closeSave = document.querySelector('.close-save');
+const saveContainer = document.querySelector('.save-container');
+const saveInput = document.querySelector('.save-container input');
+
+
+// Event Listeners
+saveBtn.addEventListener('click', openPalette);
+
+function openPalette (e){
+    const popup = saveContainer.children[0];
+    saveContainer.classList.add("active")
+    popup.classList.add("active")
+}
+
+
+
+randomColors();
